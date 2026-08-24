@@ -1,0 +1,15 @@
+import pandas as pd
+url = 'https://codefinity-content-media.s3.eu-west-1.amazonaws.com/4bf24830-59ba-4418-969b-aaf8117d522e/plane'
+data = pd.read_csv(url, index_col=0)
+
+
+columns = ['AirportFrom', 'Airline', 'DayOfWeek', 'Time', 'Length']
+
+data_subset = data[columns]
+
+data_flights = data_subset.groupby(['AirportFrom', 'Airline', 'DayOfWeek']).apply(
+    lambda x: (x['Length'] + x['Time']).min()
+)
+
+
+print(data_flights.head(10))
